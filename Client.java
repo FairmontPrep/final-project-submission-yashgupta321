@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Client {
-    // Insert test cases here
+    // Insert test cases here for the array 
     static List<List<Integer>> A = Arrays.asList(
         Arrays.asList(1, 0, 0, 0, 1),
     Arrays.asList(1, 1, 1, 0, 1),
@@ -9,8 +9,6 @@ public class Client {
     Arrays.asList(0, 0, 0, 0, 1),
     Arrays.asList(1, 1, 1, 1, 1)
     );
-    
-    
 
     public static void main(String[] args) {
         runPathfinding();
@@ -25,22 +23,33 @@ public class Client {
     }
 
     public static List<String> findPath(List<List<Integer>> map) {
-        int R = map.size(), C = map.get(0).size();
+        int R = map.size(); 
+        int C = map.get(0).size();
+
         List<int[]> edgeOnes = new ArrayList<>();
 
         for (int r = 0; r < R; r++) {
-            if (map.get(r).get(0) == 1)       edgeOnes.add(new int[]{r, 0});
-            if (map.get(r).get(C - 1) == 1)   edgeOnes.add(new int[]{r, C - 1});
+            if (map.get(r).get(0) == 1)      
+                edgeOnes.add(new int[]{r, 0});
+
+            if (map.get(r).get(C - 1) == 1)   
+                edgeOnes.add(new int[]{r, C - 1});
         }
         for (int c = 0; c < C; c++) {
-            if (map.get(0).get(c) == 1)       edgeOnes.add(new int[]{0, c});
-            if (map.get(R - 1).get(c) == 1)   edgeOnes.add(new int[]{R - 1, c});
+            if (map.get(0).get(c) == 1)       
+                edgeOnes.add(new int[]{0, c});
+                
+            if (map.get(R - 1).get(c) == 1)   
+                edgeOnes.add(new int[]{R - 1, c});
         }
 
         for (int[] start : edgeOnes) {
             boolean[][] visited = new boolean[R][C];
+            
             List<String> path = new ArrayList<>();
+            
             int startWall = wallOf(start[0], start[1], R, C);
+            
             if (dfs(map, visited, start[0], start[1], startWall, path, null, 0)) {
                 return path;
             }
@@ -49,13 +58,13 @@ public class Client {
         return Collections.emptyList();
     }
 
-    private static boolean dfs(List<List<Integer>> map, boolean[][] visited,
-                               int r, int c, int startWall,
-                               List<String> path, int[] prevDir, int turnCount) {
+    private static boolean dfs(List<List<Integer>> map, boolean[][] visited, int r, int c, int startWall, List<String> path, int[] prevDir, int turnCount) {
         int R = map.size(), C = map.get(0).size();
 
-        if (r < 0 || r >= R || c < 0 || c >= C) return false;
-        if (visited[r][c] || map.get(r).get(c) != 1) return false;
+        if (r < 0 || r >= R || c < 0 || c >= C) 
+            return false;
+        if (visited[r][c] || map.get(r).get(c) != 1) 
+            return false;
 
         visited[r][c] = true;
         path.add("A[" + r + "][" + c + "]");
@@ -66,6 +75,7 @@ public class Client {
         }
 
         int[][] dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
         for (int[] dir : dirs) {
             int newTurnCount = turnCount;
             if (prevDir != null && (dir[0] != prevDir[0] || dir[1] != prevDir[1])) {
